@@ -19,9 +19,15 @@
             <select v-model="No_Of_Cards" id="No_Of_Cards"
               class="w-20 sm:w-32 xl:w-40 h-10 bg-blue-400 text-white rounded-lg shadow hover:bg-blue-500 focus:outline-none"
               @click="List = false">
-              <option v-for="card in filteredCards" :key="card.value" :value="card.value">
-                {{ card.label }}
-              </option>
+              <option value="1" class="block sm:hidden">1</option>
+              <option value="2" class="block sm:hidden">2</option>
+              <option value="4" class="hidden sm:block">4</option>
+              <option value="5" class="hidden sm:block">5</option>
+              <option value="6" class="hidden sm:block">6</option>
+              <option value="7" class="hidden sm:block">7</option>
+              <option value="8" class="hidden sm:block">8</option>
+              <option value="9" class="hidden sm:block">9</option>
+              <option value="10" class="hidden sm:block">10</option>
             </select>
           </div>
         </div>
@@ -187,17 +193,6 @@
           selected: [],
           selectable: false,
           ToPosition: 0,
-          cards: [
-            { value: 1, label: "1", showOnMobile: true },
-            { value: 2, label: "2", showOnMobile: true },
-            { value: 4, label: "4", showOnMobile: false },
-            { value: 5, label: "5", showOnMobile: false },
-            { value: 6, label: "6", showOnMobile: false },
-            { value: 7, label: "7", showOnMobile: false },
-            { value: 8, label: "8", showOnMobile: false },
-            { value: 9, label: "9", showOnMobile: false },
-            { value: 10, label: "10", showOnMobile: false },
-          ],
         };
       },
       beforeMount() {
@@ -209,15 +204,6 @@
         this.setInitialCards();
         window.addEventListener("resize", this.setInitialCards);
       },
-      computed: {
-        filteredCards() {
-          const isMobile = window.innerWidth <= 768;
-          return this.cards.filter((card) =>
-            isMobile ? card.showOnMobile : !card.showOnMobile
-          );
-        },
-      },
-
       methods: {
         async getData() {
           this.isLoading = true;
