@@ -15,7 +15,7 @@
           <div class="grid-col-1">
             <label for="No_Of_Cards" class="block text-gray-700 text-sm font-bold mb-2">No of cards</label>
             <select v-model="No_Of_Cards"id="No_Of_Cards" class="w-20 sm:w-32 xl:w-40  h-10 bg-blue-400 text-white
-            rounded-md shadow 
+            rounded-lg shadow 
             hover:bg-blue-500 focus:outline-none" @click="List = false">
                 <option value="1" :class="`block sm:hidden`">1</option>
                 <option value="2" :class="`block sm:hidden`">2</option>
@@ -68,7 +68,7 @@
                   <img :src="currentImage(index)" alt="" class="object-contain h-full w-32 sm:w-48 border"/>
                 </div>
                 <div class="flex flex-col justify-center pr-8 sm:pl-6 lg:pl-10">
-                  <div class="font-medium inline-block text-xs sm:text-sm mb-2 text-wrap truncate group-hover:text-xs group-hover:overflow-visible group-hover:whitespace-normal group-hover:text-clip">
+                  <div class="font-medium text-xs sm:text-sm mb-2 text-wrap truncate group-hover:text-xs group-hover:overflow-visible group-hover:whitespace-normal group-hover:text-clip">
                     Product: {{ p.title }}
                   </div>
                   <div class="font-light uppercase text-xs mb-2 truncate group-hover:overflow-visible group-hover:whitespace-normal group-hover:text-clip">
