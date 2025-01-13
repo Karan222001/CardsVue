@@ -12,7 +12,7 @@
     <header class="bg-gray-300">
       <div class="container justify-content-between justify-center flex flex-wrap max-w-[1320px] mx-auto">               
         <div class=" px-6 py-4 relative inline-block text-left">
-          <div class="grid-col-1">
+          <div class="grid-col-1" @touchmove.prevent @scroll.prevent>
             <label for="No_Of_Cards" class="block text-gray-700 text-sm font-bold mb-2">No of cards</label>
             <select v-model="No_Of_Cards" id="No_Of_Cards" class="w-20 sm:w-32 xl:w-40 h-10 bg-blue-400 text-white rounded-lg shadow hover:bg-blue-500 focus:outline-none" @click="List = false">
               <option v-for="card in filteredCards" :key="card.value" :value="card.value">
