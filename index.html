@@ -91,8 +91,8 @@
               </div>
             </div>
           </div>
-          <div v-if="selected.length != 0" class="w-200 bg-gray-200 sm: w-full rounded-xl flex flex-wrap z-50 fixed bottom-0 left-1/2 transform -translate-x-1/2 p-4" :style="{ 'transform': 'translateY(' + scrollOffset + 'px)' }">
-            Selected cards: {{ selected.length }}  To Position: <input type="text" v-model="ToPosition" class="bg-gray-200 w-10"><button type="button" @click="ChangePosition" class="w-20 h-6 py-3 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-blue-100 text-blue-800 hover:bg-blue-200 focus:outline-none active:bg-blue-300 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-400 dark:hover:bg-blue-900 dark:focus:bg-blue-900">Change</button>
+          <div v-if="selected.length != 0" class="w-180 bg-gray-200 sm: w-full rounded-xl flex flex-wrap z-50 fixed bottom-0 left-1/2 transform -translate-x-1/2 p-4" >
+            Selected cards: {{ selected.length }} <div class="ml-4">To Position: </div><input type="text" v-model="ToPosition" class="bg-gray-200 ml-2 border-2 border-black w-10 text-center"><button type="button" @click="ChangePosition" class="w-20 h-6 py-3 ml-2 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-blue-200 text-blue-800 hover:bg-blue-300 focus:outline-none active:bg-blue-300 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-400 dark:hover:bg-blue-900 dark:focus:bg-blue-900">Change</button>
           </div> 
         </div>              
         <div v-else="" class="container bg-gray-100 max-w-[1320px] mx-auto" :class="`grid grid-cols-${No_Of_Cards} sm:grid-cols-${No_Of_Cards} xl:grid-cols-${No_Of_Cards}`" ref="CardsContainer">
