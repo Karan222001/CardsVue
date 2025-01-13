@@ -1,0 +1,290 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <title>Cards Using Vue and tailwind css</title>
+</head>
+<body>
+  <div id="app" class="scroll-smooth">
+    <header class="bg-gray-300">
+      <div class="container justify-content-between justify-center flex flex-wrap max-w-[1320px] mx-auto">               
+        <div class=" px-6 py-4 relative inline-block text-left">
+          <div class="grid-col-1">
+            <label for="No_Of_Cards" class="block text-gray-700 text-sm font-bold mb-2">No of cards</label>
+            <select v-model="No_Of_Cards"id="No_Of_Cards" class="w-20 sm:w-32 xl:w-40  h-10 bg-blue-400 text-white
+            rounded-md shadow 
+            hover:bg-blue-500 focus:outline-none" @click="List = false">
+                <option value="1" :class="`block sm:hidden`">1</option>
+                <option value="2" :class="`block sm:hidden`">2</option>
+                <option value="4" :class="`hidden sm:block`">4</option>
+                <option value="5" :class="`hidden sm:block`">5</option>
+                <option value="6" :class="`hidden sm:block`">6</option>
+                <option value="7" :class="`hidden sm:block`">7</option>
+                <option value="8" :class="`hidden sm:block`">8</option>
+                <option value="9" :class="`hidden sm:block`">9</option>
+                <option value="10" :class="`hidden sm:block`">10</option>
+            </select>
+        </div>
+        </div>
+        <div class="px-4 pt-11 pb-4">
+          <button type="button" @click="List = !List" class="w-20 sm:w-32 xl:w-40 h-10 py-3 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-blue-100 text-blue-800 hover:bg-blue-200 focus:outline-none active:bg-blue-300 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-400 dark:hover:bg-blue-900 dark:focus:bg-blue-900">
+            List
+          </button>
+        </div>
+        <div class="px-4 pt-11 pb-4">
+          <button type="button" @click="ScrollToLastElement" class="w-20 sm:w-32 xl:w-40  h-10 py-3 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-blue-100 text-blue-800 hover:bg-blue-200 focus:outline-none active:bg-blue-300 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-400 dark:hover:bg-blue-900 dark:focus:bg-blue-900">
+            Bottom
+          </button>
+        </div> 
+      </div> 
+    </header>
+    <div v-if="isLoading" class="fixed inset-0 flex justify-center items-center bg-gray-50 bg-opacity-50">
+      <svg aria-hidden="true" class="w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="currentColor"/>
+        <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentFill"/>
+    </svg>
+    <span class="sr-only">Loading...</span>
+    </div>
+    <div v-else>
+      <div>
+        <div v-if="List" class="container bg-gray-100 max-w-[1320px] mx-auto" ref="CardsContainer">
+          <div class="fixed bottom-4 right-4 z-30">
+            <button type="button" @click="ScrollToFirstElement" class="w-14 h-14 py-3 px-4 inline-flex  font-medium rounded-full border-2 border-black">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"><path d="m3.293 11.293 1.414 1.414L11 6.414V20h2V6.414l6.293 6.293 1.414-1.414L12 2.586l-8.707 8.707z"/></svg>
+            </button>
+          </div>
+          <div v-for="(p, index) in products.products" :key="p.id" class="py-4 flex justify-center items-center flex-wrap">
+            <div
+              class="w-full sm:w-10/12 lg:min-w-[1100px] lg:w-8/12 h-40 p-2 bg-white border-2 border-white rounded-xl transform transition hover:translate-y-2 duration-300 shadow-lg hover:shadow-2xl mt-4 mb-4 lg:m-0"
+              :class="{'border-blue-500': selected.includes(index), 'border-white': !selected.includes(index)}"
+              @mouseenter="startImageRotation(index)"
+              @mouseleave="stopImageRotation"
+              @click="CardSelected(index)">
+              <div class="w-full h-full overflow-hidden flex justify-start items-center">
+                <div class="w-48 h-full flex-shrink-0">
+                  <img :src="currentImage(index)" alt="" class="object-contain h-full w-32 sm:w-48 border"/>
+                </div>
+                <div class="flex flex-col justify-center pr-8 sm:pl-6 lg:pl-10">
+                  <div class="font-medium text-sm mb-2 text-wrap truncate group-hover:text-xs group-hover:overflow-visible group-hover:whitespace-normal group-hover:text-clip">
+                    Product: {{ p.title }}
+                  </div>
+                  <div class="font-light uppercase text-xs mb-2 truncate group-hover:overflow-visible group-hover:whitespace-normal group-hover:text-clip">
+                    Category: {{ p.category }}
+                  </div>
+                  <div class="font-medium uppercase text-xs mb-2 truncate group-hover:overflow-visible group-hover:whitespace-normal group-hover:text-clip">
+                    Brand: {{ p.brand }}
+                  </div>
+                  <div class="flex items-center font-medium uppercase text-xs mb-2 truncate group-hover:overflow-visible group-hover:whitespace-normal group-hover:text-clip">
+                    <span>Rating: {{ p.rating }}</span>
+                    <svg class="w-4 h-4 text-yellow-300 ms-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
+                      <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"/>
+                    </svg>
+                  </div>
+                  <div class="flex items-center gap-2">
+                    <span class="text-xs font-medium">Price: ${{p.discountPercentage}}</span>
+                    <span class="text-xs line-through">${{p.price}}</span>
+                  </div>
+                </div>                               
+              </div>
+            </div>
+          </div>
+          <div v-if="selected.length != 0" class="w-200 bg-gray-200 sm: w-full rounded-xl flex flex-wrap z-50 fixed bottom-0 left-1/2 transform -translate-x-1/2 p-4" :style="{ 'transform': 'translateY(' + scrollOffset + 'px)' }">
+            Selected cards: {{ selected.length }}  To Position: <input type="text" v-model="ToPosition" class="bg-gray-200 w-10"><button type="button" @click="ChangePosition" class="w-20 h-6 py-3 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-blue-100 text-blue-800 hover:bg-blue-200 focus:outline-none active:bg-blue-300 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-400 dark:hover:bg-blue-900 dark:focus:bg-blue-900">Change</button>
+          </div> 
+        </div>              
+        <div v-else="" class="container bg-gray-100 max-w-[1320px] mx-auto" :class="`grid grid-cols-${No_Of_Cards} sm:grid-cols-${No_Of_Cards} xl:grid-cols-${No_Of_Cards}`" ref="CardsContainer">
+          <div class="fixed bottom-4 right-4 z-30">
+            <button type="button" @click="ScrollToFirstElement" class="w-14 h-14 py-3 px-4 inline-flex  font-medium rounded-full border-2 border-black">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"><path d="m3.293 11.293 1.414 1.414L11 6.414V20h2V6.414l6.293 6.293 1.414-1.414L12 2.586l-8.707 8.707z"/></svg>
+            </button>
+          </div>
+          <div v-for="(p, index) in products.products" :key="index" class="px-2 py-4">
+            <div
+    class="bg-white rounded-xl z-20 border-2 overflow-hidden shadow-lg transform transition hover:translate-y-2 hover:shadow-2xl mt-4 mb-4"
+    :class="{'border-blue-500': selected.includes(index), 'border-white': !selected.includes(index)}"
+    ref="CardsContainer"
+    @mouseenter="startImageRotation(index)"
+    @mouseleave="stopImageRotation"
+    @click="CardSelected(index)"
+  >
+              <div class="w-full h-48 overflow-hidden">
+                <img
+                  :src="currentImage(index)" alt=""
+                  class="object-contain w-full h-full"
+                />
+              </div>
+              <div class="p-4 text-center sm:text-left">
+                <div class="font-medium text-sm mb-2 truncate group-hover:text-xs group-hover:overflow-visible group-hover:whitespace-normal">
+                  {{ p.title }}
+                </div>
+                <div class="font-light uppercase text-xs mb-2 truncate group-hover:overflow-visible group-hover:whitespace-normal group-hover:text-clip">
+                  {{ p.category }} 
+                </div>
+                <div class="font-medium uppercase text-xs mb-2 truncate group-hover:overflow-visible group-hover:whitespace-normal group-hover:text-clip">
+                  {{ p.brand }} 
+                </div>
+                <div class="flex items-center gap-2 justify-center sm:justify-start">
+                  <span class="text-sm font-semibold">${{ p.discountPercentage }}</span>
+                  <span class="text-xs line-through">${{ p.price }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div v-if="selected.length != 0" class="w-180 bg-gray-200 sm: w-full rounded-xl flex flex-wrap z-50 fixed bottom-0 left-1/2 transform -translate-x-1/2 p-4" >
+            Selected cards: {{ selected.length }} <div class="ml-4">To Position: </div><input type="text" v-model="ToPosition" class="bg-gray-200 ml-2 border-2 border-black w-10 text-center"><button type="button" @click="ChangePosition" class="w-20 h-6 py-3 ml-2 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-blue-200 text-blue-800 hover:bg-blue-300 focus:outline-none active:bg-blue-300 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-400 dark:hover:bg-blue-900 dark:focus:bg-blue-900">Change</button>
+          </div>
+        </div>   
+      </div>
+    </div>
+  </div>
+<script>
+      const App= Vue.createApp({
+        data(){
+          return{
+            hovered:{},
+            products:[],
+            currentImageIndex: {}, 
+            rotationInterval: null,
+            isLoading:true,
+            No_Of_Cards:4,
+            List:false,
+            skip:0,
+            temp:[],
+            selected:[],
+            selectable:false,
+            ToPosition:0,
+          };
+        },
+        beforeMount(){
+          this.getData();
+          window.removeEventListener("resize", this.setInitialCards);
+        },
+        mounted(){
+          this.getNextProducts();
+          this.setInitialCards();
+          window.addEventListener("resize", this.setInitialCards);
+        },
+        methods:{
+          async getData() {
+            this.isLoading = true;  
+            try {
+              const response = await fetch('https://dummyjson.com/products');
+              const products = await response.json();
+              this.products = products;  
+            } catch (error) {
+                console.error('Error fetching data:', error);  
+            } finally {
+                this.isLoading = false;  
+            }
+            this.selectable = true;
+          },
+          async getNextProducts(){
+            window.addEventListener("scroll" ,async ()=>{
+              let scrollTop = document.documentElement.scrollTop;
+              let scrolHeight = document.documentElement.scrollHeight;
+              let clientHeight = document.documentElement.clientHeight;
+              if(scrollTop+clientHeight>=scrolHeight-2){
+                await this.GetProducts(); 
+              }
+            })
+          },     
+          async GetProducts(){ 
+            this.skip += 30;           
+            const response = await fetch(`https://dummyjson.com/products?skip=${this.skip}`);
+            const data = await response.json();
+            if (data) {
+              this.products.products = [...this.products.products, ...data.products];   
+            }
+            if(this.products.products.length===data.total){
+              this.selectable=true;
+            } 
+          },        
+          currentImage(index) {
+            const product = this.products.products[index];
+            return product.images[this.currentImageIndex[index] || 0]; 
+          },
+          startImageRotation(index) {
+            const product = this.products.products[index];
+            if (product.images.length > 1) {
+              if (!this.currentImageIndex[index]) {
+                this.currentImageIndex[index] = 0;
+              }
+              this.rotationInterval = setInterval(() => {
+              this.currentImageIndex[index] =
+              (this.currentImageIndex[index] + 1) % product.images.length;
+              }, 1000); 
+            }
+          },
+          stopImageRotation() {
+            clearInterval(this.rotationInterval); 
+            this.rotationInterval = null;
+          },
+          CardSelected(index) {
+            if(this.selectable){
+              let existingIndex = this.selected.findIndex(o => o ===index);
+              if(existingIndex !== -1) {
+                this.selected.splice(existingIndex, 1);
+              } else {
+                this.selected.push(index); 
+              }
+            }
+          },
+          ChangePosition() {
+            if(this.ToPosition<=0){
+              this.ToPosition = 1;
+              this.temp = this.selected.map(index => this.products.products[index]);
+              this.selected.sort((a, b) => b - a); 
+              this.selected.forEach(index => {
+              this.products.products.splice(index, 1);
+              });
+              this.products.products.splice(this.ToPosition - 1, 0, ...this.temp);
+            }
+            else if(this.ToPosition>this.products.products.length){
+              this.temp = this.selected.map(index => this.products.products[index]);
+              this.selected.sort((a, b) => b - a); 
+              this.selected.forEach(index => {
+              this.products.products.splice(index, 1);
+              });
+              this.products.products.push(...this.temp);
+            }
+            else
+            {
+              this.temp = this.selected.map(index => this.products.products[index]);
+              this.selected.sort((a, b) => b - a); 
+              this.selected.forEach(index => {
+                this.products.products.splice(index, 1);
+              });
+              this.products.products.splice(this.ToPosition - 1, 0, ...this.temp);
+            }
+            this.ToPosition = 0;
+            this.selected = [];
+            this.temp = [];
+          },
+          ScrollToLastElement() {
+            const lastChildElement =this.$refs.CardsContainer.lastElementChild;
+            lastChildElement?.scrollIntoView({
+              behavior: 'smooth',
+            });
+          },
+          ScrollToFirstElement() {
+            window.scrollTo({ top: 0, behavior: "smooth" });
+          },
+          setInitialCards() {
+            const width = window.innerWidth;
+            if (width >= 1280) {
+              this.No_Of_Cards = "4";
+            } else if (width >= 640) {
+              this.No_Of_Cards = "2";
+            } else {
+              this.No_Of_Cards = "1";
+            }
+          },        
+        }
+      })
+      App.mount("#app");
+</script>    
+</body>
+</html>
