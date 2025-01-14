@@ -58,8 +58,8 @@
       <span class="sr-only">Loading...</span>
     </div>
     <div v-else>
-      <div>
-        <div v-if="List" class="container bg-gray-100 max-w-[1320px] mx-auto" ref="CardsContainer">
+      <div class="container bg-gray-100 w-full mx-auto">
+        <div v-if="List" ref="CardsContainer">
           <div class="fixed bottom-4 right-4 z-30">
             <button type="button" @click="ScrollToFirstElement"
               class="w-14 h-14 py-3 px-4 inline-flex font-medium rounded-full border-transparent">
@@ -113,7 +113,7 @@
             class="w-180 bg-gray-200 sm: w-full rounded-xl flex flex-wrap z-50 fixed bottom-0 left-1/2 transform -translate-x-1/2 p-4">
             Selected cards: {{ selected.length }}
             <div class="ml-4">To Position:</div>
-            <input type="text" v-model="ToPosition"
+            <input type="number" v-model="ToPosition"
               class="bg-gray-200 ml-2 border-2 border-black w-10 text-center" /><button type="button"
               @click="ChangePosition"
               class="w-20 h-6 py-3 ml-2 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-blue-200 text-blue-800 hover:bg-blue-300 focus:outline-none active:bg-blue-300 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-400 dark:hover:bg-blue-900 dark:focus:bg-blue-900">
@@ -121,7 +121,7 @@
             </button>
           </div>
         </div>
-        <div v-else="" class="container bg-gray-100 max-w-[1320px] mx-auto"
+        <div v-else=""
           :class="`grid grid-cols-${No_Of_Cards} sm:grid-cols-${No_Of_Cards} xl:grid-cols-${No_Of_Cards}`"
           ref="CardsContainer">
           <div class="fixed bottom-4 right-4 z-30">
@@ -166,12 +166,18 @@
             class="w-180 bg-gray-200 sm: w-full rounded-xl flex flex-wrap z-50 fixed bottom-0 left-1/2 transform -translate-x-1/2 p-4">
             Selected cards: {{ selected.length }}
             <div class="ml-4">To Position:</div>
-            <input type="text" v-model="ToPosition"
+            <input type="number" v-model="ToPosition"
               class="bg-gray-200 ml-2 border-2 border-black w-10 text-center" /><button type="button"
               @click="ChangePosition"
               class="w-20 h-6 py-3 ml-2 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-blue-200 text-blue-800 hover:bg-blue-300 focus:outline-none active:bg-blue-300 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-400 dark:hover:bg-blue-900 dark:focus:bg-blue-900">
               Change
             </button>
+            <button type="button"
+              @click="this.selected = []"
+              class="w-28 h-6 py-3 ml-2 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-blue-200 text-blue-800 hover:bg-blue-300 focus:outline-none active:bg-blue-300 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-400 dark:hover:bg-blue-900 dark:focus:bg-blue-900">
+              Unselect All
+            </button>
+            <div class="ml-4">Total Number Of Items: {{this.Total}}</div>
           </div>
         </div>
       </div>
@@ -193,6 +199,7 @@
           selected: [],
           selectable: false,
           ToPosition: 0,
+          Total:null,
         };
       },
       beforeMount() {
@@ -211,6 +218,7 @@
             const response = await fetch("https://dummyjson.com/products");
             const products = await response.json();
             this.products = products;
+            this.Total = products.total;
           } catch (error) {
             console.error("Error fetching data:", error);
           } finally {
@@ -312,9 +320,9 @@
               ...this.temp
             );
           }
+          this.temp = [];
           this.ToPosition = 0;
           this.selected = [];
-          this.temp = [];
         },
         ScrollToLastElement() {
           const lastChildElement = this.$refs.CardsContainer.lastElementChild;
