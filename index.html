@@ -79,24 +79,24 @@
               class="w-full sm:w-10/12 lg:min-w-[1100px] lg:w-8/12 h-40 p-2 bg-white  flex border-2 border-white rounded-xl transform transition hover:translate-y-2 duration-300 shadow-lg hover:shadow-2xl mt-4 mb-4 lg:m-0"
               :class="{'border-blue-500': selected.includes(index), 'border-white': !selected.includes(index)}"
               @mouseenter="startImageRotation(index)" @mouseleave="stopImageRotation" @click="CardSelected(index)">
-              <div class="text-left pl-1 mr-2 w-4">
+              <div class="text-left pl-1 mr-5 w-4">
                 {{index + 1}}
               </div>              
               <div class="w-full h-full overflow-hidden flex justify-start items-center">                
                 <div class="w-48 h-full flex-shrink-0">
                   <img :src="currentImage(index)" alt="" class="object-contain h-full w-32 sm:w-48 border" />
                 </div>
-                <div class="flex flex-col justify-center pr-8 sm:pl-2 lg:pl-16">
+                <div class="flex flex-col justify-center pr-8 pl-[-2] sm:pl-4 lg:pl-6">
                   <div
                     class="font-medium text-xs sm:text-sm mb-2 text-wrap truncate group-hover:text-xs group-hover:overflow-visible group-hover:whitespace-normal group-hover:text-clip">
                     Product: {{ p.title }}
                   </div>
                   <div
-                    class="font-light uppercase text-xs mb-2 truncate group-hover:overflow-visible group-hover:whitespace-normal group-hover:text-clip">
+                    class="font-light text-xs mb-2 truncate group-hover:overflow-visible group-hover:whitespace-normal group-hover:text-clip">
                     Category: {{ p.category }}
                   </div>
                   <div
-                    class="font-medium uppercase text-xs mb-2 truncate group-hover:overflow-visible group-hover:whitespace-normal group-hover:text-clip">
+                    class="font-medium text-xs mb-2 truncate group-hover:overflow-visible group-hover:whitespace-normal group-hover:text-clip">
                     Brand: {{ p.brand }}
                   </div>
                   <div
