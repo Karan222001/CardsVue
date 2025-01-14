@@ -55,7 +55,7 @@
     <div v-else>
       <div class="bg-gray-100 w-full">
         <div v-if="List" ref="CardsContainer">
-          <div class="fixed bottom-4 right-4 z-50">
+          <div class="fixed bottom-4 right-4 z-30">
             <button type="button" @click="ScrollToFirstElement"
               class="w-14 h-14 py-3 px-4 inline-flex font-medium rounded-full border-transparent">
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20">
@@ -146,7 +146,7 @@
         <div v-else="">
           <div :class="`grid grid-cols-${No_Of_Cards} sm:grid-cols-${No_Of_Cards} xl:grid-cols-${No_Of_Cards}`"
             ref="CardsContainer">
-            <div class="fixed bottom-4 right-4 z-50">
+            <div class="fixed bottom-4 right-4 z-30">
               <button type="button" @click="ScrollToFirstElement"
                 class="w-14 h-14 py-3 px-4 inline-flex font-medium rounded-full border-transparent">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20">
