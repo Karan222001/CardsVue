@@ -218,7 +218,9 @@
       },
       beforeMount() {
         this.getData();
-        window.removeEventListener("resize", this.setInitialCards);
+        if(!this.WidthTaken){
+          window.removeEventListener("resize", this.setInitialCards);
+        }
       },
       mounted() {
         this.getNextProducts();
