@@ -213,22 +213,17 @@
           selectable: false,
           ToPosition: 0,
           Total:null,
-          WidthTaken:false,
+          
         };
       },
       beforeMount() {
         this.getData();
-        if(!this.WidthTaken){
-          window.removeEventListener("resize", this.setInitialCards);
-        }
+        window.removeEventListener("resize", this.setInitialCards);
       },
       mounted() {
         this.getNextProducts();
-        if(!this.WidthTaken){
-          this.setInitialCards();
-          window.addEventListener("resize", this.setInitialCards);
-          this.WidthTaken=true;
-        }
+        this.setInitialCards();
+        window.addEventListener("resize", this.setInitialCards);
       },
       methods: {
         async getData() {
