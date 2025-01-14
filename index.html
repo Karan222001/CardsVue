@@ -252,7 +252,7 @@
             let scrollTop = document.documentElement.scrollTop;
             let scrolHeight = document.documentElement.scrollHeight;
             let clientHeight = document.documentElement.clientHeight;
-            if (scrollTop + clientHeight >= scrolHeight - 2) {
+            if (scrollTop + clientHeight >= scrolHeight - 8) {
               await this.GetProducts();
             }
           });
